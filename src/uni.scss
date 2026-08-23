@@ -1,0 +1,31 @@
+/* uni-app 全局 SCSS 变量（自动注入到每个页面） */
+
+/* ===== 灶台招工 品牌色板 ===== */
+$ink: #17292c; // 主文字
+$muted: #718083; // 次要文字
+$paper: #fffdf7; // 页面底色（米白）
+$wash: #f3f2e9; // 浅灰米底
+$line: #e7e5dc; // 分割线
+$orange: #ef5a2a; // 品牌橙
+$orange-dark: #ce421d;
+$yellow: #ffd35c;
+$jade: #41a899; // 青
+$blue: #4d7cd6;
+
+/* ===== 常用圆角/阴影 ===== */
+$radius-sm: 8rpx;
+$radius-md: 16rpx;
+$radius-lg: 28rpx;
+$radius-xl: 44rpx;
+$shadow-card: 0 12rpx 40rpx rgba(23, 41, 44, 0.08);
+$shadow-float: 0 14rpx 32rpx rgba(239, 90, 42, 0.3);
+
+/* uni-app 内置变量覆盖 */
+$uni-color-primary: $orange;
+$uni-color-success: $jade;
+$uni-color-warning: #f5a623;
+$uni-color-error: #e64340;
+$uni-text-color: $ink;
+$uni-text-color-grey: $muted;
+$uni-bg-color: $paper;
+$uni-border-color: $line;

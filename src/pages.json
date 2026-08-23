@@ -1,0 +1,141 @@
+{
+  "easycom": {
+    "custom": {
+      "^z-icon$": "@/components/Icon.vue",
+      "^nav-bar$": "@/components/NavBar.vue",
+      "^tab-bar$": "@/components/TabBar.vue",
+      "^search-bar$": "@/components/SearchBar.vue",
+      "^job-card$": "@/components/JobCard.vue",
+      "^product-card$": "@/components/ProductCard.vue",
+      "^empty$": "@/components/Empty.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/tools/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "招聘"
+      }
+    },
+    {
+      "path": "pages/jobs/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "求职"
+      }
+    },
+    {
+      "path": "pages/market/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "餐饮跳蚤"
+      }
+    },
+    {
+      "path": "pages/mine/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/jobs/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "职位详情"
+      }
+    },
+    {
+      "path": "pages/market/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "商品详情"
+      }
+    },
+    {
+      "path": "pages/market/post",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "发布闲置"
+      }
+    },
+    {
+      "path": "pages/job/post",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "发布岗位"
+      }
+    },
+    {
+      "path": "pages/job/mine",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "在招职位"
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/resume/list",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "人才简历"
+      }
+    },
+    {
+      "path": "pages/resume/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "简历详情"
+      }
+    },
+    {
+      "path": "pages/interview/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "面试安排"
+      }
+    },
+    {
+      "path": "pages/chat/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "沟通记录"
+      }
+    },
+    {
+      "path": "pages/resume/my",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "我的简历"
+      }
+    },
+    {
+      "path": "pages/settings/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "设置"
+      }
+    },
+    {
+      "path": "pages/search/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "搜索"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "灶台招工",
+    "navigationBarBackgroundColor": "#fffdf7",
+    "backgroundColor": "#fffdf7",
+    "backgroundTextStyle": "light"
+  }
+}

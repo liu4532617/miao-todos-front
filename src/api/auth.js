@@ -1,0 +1,22 @@
+import { get, post, put } from './request'
+import API from './urls'
+
+/** 登录（用户名 + 密码） */
+export function login(data) {
+  return post(API.login, data)
+}
+
+/** 获取登录用户信息 */
+export function getProfile() {
+  return get(API.profile)
+}
+
+/** 更新用户信息 */
+export function updateProfile(data) {
+  return put(API.profile, data)
+}
+
+/** 切换身份（candidate 求职者 / boss 经营者） */
+export function switchRole(role) {
+  return put(API.role, { role })
+}
