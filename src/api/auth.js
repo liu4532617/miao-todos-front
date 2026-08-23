@@ -15,8 +15,3 @@ export function getProfile() {
 export function updateProfile(data) {
   return put(API.profile, data)
 }
-
-/** 切换身份（candidate 求职者 / boss 经营者） */
-export function switchRole(role) {
-  return put(API.role, { role })
-}

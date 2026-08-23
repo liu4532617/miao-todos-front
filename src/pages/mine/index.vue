@@ -9,7 +9,7 @@
           <z-icon name="chef-hat" :size="26" color="#534521" />
         </view>
         <text class="name">{{ user.name || '登录后体验完整功能' }}</text>
-        <text class="sub" v-if="user.name">{{ roleText(user.role) }} · {{ user.city || '未设置城市' }}</text>
+        <text class="sub" v-if="user.name">{{ authText(user.companyAuth) }} · {{ user.city || '未设置城市' }}</text>
         <text class="sub" v-else>登录后可投递简历、收藏职位</text>
         <view class="profile-stats">
           <view class="stat" @click="goApplications">
@@ -44,9 +44,11 @@
         <text class="title">常用设置</text>
       </view>
       <view class="my-menu">
-        <view class="my-row" @click="onSwitchRole">
+        <view class="my-row" @click="go('/pages/company/auth')">
           <z-icon name="building" :size="18" color="#ef5a2a" />
-          <text class="row-name">切换经营者身份</text>
+          <text class="row-name">公司认证</text>
+          <text class="row-tag" v-if="user.companyAuth === 1">已认证</text>
+          <text class="row-tag pending" v-else-if="companyPending">审核中</text>
           <z-icon name="chevron-right" :size="16" color="#a7b1b0" />
         </view>
         <view class="my-row" @click="go('/pages/settings/index')">
@@ -70,16 +72,17 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/store/user'
-import { switchRole } from '@/api/auth'
+import { getMyCompany } from '@/api/company'
 import { toast } from '@/utils/feedback'
 
 const store = useUserStore()
 
 const user = computed(() => store.userInfo || {})
 const stats = computed(() => store.stats)
+const companyPending = ref(false)
 
 const services = [
   { name: '我的简历', icon: 'document-text', url: '/pages/resume/my' },
@@ -110,27 +113,22 @@ function goMyProducts() {
 }
 
 function onSwitchRole() {
-  uni.showActionSheet({
-    itemList: ['切换到求职者身份', '切换到经营者身份'],
-    success: (res) => {
-      const role = res.tapIndex === 0 ? 'candidate' : 'boss'
-      switchRole(role)
-        .then(() => {
-          toast(res.tapIndex === 0 ? '已切换为求职者' : '已切换为经营者')
-          store.fetchProfile()
-        })
-        .catch(() => {})
-    },
-  })
+  uni.navigateTo({ url: '/pages/company/auth' })
 }
 
-function roleText(role) {
-  return role === 'boss' ? '经营者' : '求职者'
+function authText(auth) {
+  if (auth === 1) return '公司已认证'
+  if (companyPending.value) return '公司认证审核中'
+  return '未认证公司'
 }
 
 async function onShowHandler() {
   if (store.token) {
     store.fetchProfile()
+    try {
+      const company = await getMyCompany()
+      companyPending.value = !!(company && company.authStatus === 2)
+    } catch (e) {}
   }
   store.fetchStats()
 }

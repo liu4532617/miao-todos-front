@@ -144,15 +144,14 @@ export function toProductPayload(p) {
 
 /* ================= 用户 ================= */
 
-const ROLE_MAP = { SEEKER: 'candidate', SELLER: 'boss', candidate: 'candidate', boss: 'boss' }
-
 /** 后端 UniUser → 前端 user 字段 */
 export function mapUser(u) {
   if (!u) return u
   return {
     ...u,
     name: u.nickname || u.username || u.name,
-    role: ROLE_MAP[u.role] || u.role || 'candidate',
+    companyAuth: u.companyAuth ?? 0,
+    companyId: u.companyId ?? null,
   }
 }
 

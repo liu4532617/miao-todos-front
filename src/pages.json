@@ -129,6 +129,13 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "搜索"
       }
+    },
+    {
+      "path": "pages/company/auth",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "公司认证"
+      }
     }
   ],
   "globalStyle": {
