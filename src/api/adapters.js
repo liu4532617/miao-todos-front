@@ -119,6 +119,7 @@ export function mapProduct(p) {
   return {
     ...p,
     name: p.title || p.name,
+    itemType: p.itemType || 'EQUIPMENT',
     originPrice: p.originalPrice ?? p.originPrice,
     status: p.status === 0 || p.status === 2 || p.status === 'off' ? 'off' : 'on',
     createdAt: fmtTime(p.createTime) || p.createdAt,
@@ -130,6 +131,7 @@ export function mapProduct(p) {
 export function toProductPayload(p) {
   return {
     title: p.name,
+    itemType: p.itemType || 'EQUIPMENT',
     description: p.description || '',
     category: p.category || '其他',
     price: Number(p.price) || 0,

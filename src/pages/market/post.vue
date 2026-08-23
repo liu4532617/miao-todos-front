@@ -52,7 +52,22 @@
           </view>
 
           <view class="form-item">
-            <text class="label">商品分类</text>
+            <text class="label">资源类型</text>
+            <view class="chips">
+              <view
+                v-for="t in itemTypes"
+                :key="t.value"
+                class="chip"
+                :class="{ active: form.itemType === t.value }"
+                @click="form.itemType = t.value"
+              >
+                {{ t.label }}
+              </view>
+            </view>
+          </view>
+
+          <view class="form-item">
+            <text class="label">分类</text>
             <view class="chips">
               <view
                 v-for="c in categories"
@@ -126,12 +141,17 @@ import { getMyProducts, createProduct, updateProductStatus } from '@/api/market'
 import { toast, success } from '@/utils/feedback'
 
 const mode = ref('post')
+const itemTypes = [
+  { label: '二手设备', value: 'EQUIPMENT' },
+  { label: '门面出租/转让', value: 'SHOP' },
+]
 const categories = ['厨房设备', '桌椅餐具', '急转']
 const conditionOptions = ['全新', '几乎全新', '轻微使用痕迹', '明显使用痕迹']
 
 const products = ref([])
 const form = reactive({
   name: '',
+  itemType: 'EQUIPMENT',
   category: '厨房设备',
   price: '',
   originPrice: '',
