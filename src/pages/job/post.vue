@@ -18,6 +18,11 @@
         </view>
 
         <view class="form-item">
+          <text class="label">门店地址</text>
+          <input v-model="form.location" class="input" placeholder="如：广州市海珠区江南西路 1 号" placeholder-class="ph" />
+        </view>
+
+        <view class="form-item">
           <text class="label">月薪范围</text>
           <view class="salary-row">
             <input v-model="form.salaryMin" class="input half" type="number" placeholder="最低" placeholder-class="ph" />
@@ -51,6 +56,21 @@
               class="chip"
               :class="{ active: form.experience === t }"
               @click="form.experience = t"
+            >
+              {{ t }}
+            </view>
+          </view>
+        </view>
+
+        <view class="form-item">
+          <text class="label">学历要求</text>
+          <view class="chips">
+            <view
+              v-for="t in ['学历不限', '初中及以下', '高中/中专', '大专', '本科及以上']"
+              :key="t"
+              class="chip"
+              :class="{ active: form.education === t }"
+              @click="form.education = t"
             >
               {{ t }}
             </view>
@@ -96,6 +116,19 @@
         <text class="count-tip">{{ form.description.length }}/500</text>
       </view>
 
+      <!-- 任职要求 -->
+      <view class="form-card card">
+        <view class="form-title">任职要求</view>
+        <textarea
+          v-model="form.requirement"
+          class="textarea"
+          maxlength="500"
+          placeholder="如：吃苦耐劳，能适应高峰时段工作节奏，有健康证优先..."
+          placeholder-class="ph"
+        />
+        <text class="count-tip">{{ form.requirement.length }}/500</text>
+      </view>
+
       <view class="bottom-space" />
     </view>
 
@@ -115,13 +148,16 @@ const welfareOptions = ['包吃', '包住', '包吃住', '月休4天', '五险',
 const form = reactive({
   title: '',
   restaurant: '',
+  location: '',
   salaryMin: '',
   salaryMax: '',
   type: '全职',
   experience: '经验不限',
+  education: '学历不限',
   headcount: 1,
   tags: [],
   description: '',
+  requirement: '',
 })
 
 function changeCount(delta) {

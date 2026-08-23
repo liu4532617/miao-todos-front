@@ -9,7 +9,7 @@
           <z-icon name="chef-hat" :size="26" color="#534521" />
         </view>
         <text class="name">{{ user.name || '登录后体验完整功能' }}</text>
-        <text class="sub" v-if="user.title">{{ user.title }} · ID: {{ user.idCode }} · {{ user.city }}</text>
+        <text class="sub" v-if="user.name">{{ roleText(user.role) }} · {{ user.city || '未设置城市' }}</text>
         <text class="sub" v-else>登录后可投递简历、收藏职位</text>
         <view class="profile-stats">
           <view class="stat" @click="goApplications">
@@ -73,6 +73,7 @@
 import { computed } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/store/user'
+import { switchRole } from '@/api/auth'
 import { toast } from '@/utils/feedback'
 
 const store = useUserStore()
@@ -112,9 +113,19 @@ function onSwitchRole() {
   uni.showActionSheet({
     itemList: ['切换到求职者身份', '切换到经营者身份'],
     success: (res) => {
-      toast(res.tapIndex === 0 ? '已切换为求职者' : '已切换为经营者')
+      const role = res.tapIndex === 0 ? 'candidate' : 'boss'
+      switchRole(role)
+        .then(() => {
+          toast(res.tapIndex === 0 ? '已切换为求职者' : '已切换为经营者')
+          store.fetchProfile()
+        })
+        .catch(() => {})
     },
   })
+}
+
+function roleText(role) {
+  return role === 'boss' ? '经营者' : '求职者'
 }
 
 async function onShowHandler() {

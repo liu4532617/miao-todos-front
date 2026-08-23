@@ -15,8 +15,10 @@
         <text class="name">{{ product.name }}</text>
         <view class="meta-row">
           <text class="tag">{{ product.category }}</text>
+          <text v-if="product.condition" class="tag">{{ product.condition }}</text>
           <text class="time">发布于 {{ product.createdAt }}</text>
         </view>
+        <view v-if="product.views" class="views-tip">{{ product.views }} 次浏览</view>
       </view>
 
       <!-- 描述 -->

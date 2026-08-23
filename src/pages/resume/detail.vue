@@ -92,14 +92,16 @@ function onInterview() {
   uni.showActionSheet({
     itemList: ['明天 14:30 到店', '后天 10:00 到店', '电话沟通后定'],
     success: async (res) => {
-      const times = ['明天 14:30 到店', '后天 10:00 到店', '电话沟通后定']
+      const times = ['2026-08-24T14:30:00', '2026-08-25T10:00:00', null]
       try {
         await createInterview({
-          candidateName: resume.value.name,
-          jobTitle: resume.value.jobWant,
-          time: times[res.tapIndex],
-          location: '湘里湘亲 · 江南西店',
-          status: 'upcoming',
+          company: '湘里湘亲 · 江南西店',
+          interviewTime: times[res.tapIndex],
+          location: '广州市海珠区江南西路 1 号',
+          interviewer: '',
+          contactPhone: '',
+          status: 'pending',
+          remark: '',
         })
         success('已约面试')
       } catch (e) {}

@@ -76,6 +76,26 @@
           </view>
 
           <view class="form-item">
+            <text class="label">成色</text>
+            <view class="chips">
+              <view
+                v-for="c in conditionOptions"
+                :key="c"
+                class="chip"
+                :class="{ active: form.condition === c }"
+                @click="form.condition = c"
+              >
+                {{ c }}
+              </view>
+            </view>
+          </view>
+
+          <view class="form-item">
+            <text class="label">商品图片</text>
+            <input v-model="form.image" class="input" placeholder="图片链接(选填)，如 https://..." placeholder-class="ph" />
+          </view>
+
+          <view class="form-item">
             <text class="label">商品描述</text>
             <textarea
               v-model="form.description"
@@ -107,6 +127,7 @@ import { toast, success } from '@/utils/feedback'
 
 const mode = ref('post')
 const categories = ['厨房设备', '桌椅餐具', '急转']
+const conditionOptions = ['全新', '几乎全新', '轻微使用痕迹', '明显使用痕迹']
 
 const products = ref([])
 const form = reactive({
@@ -114,6 +135,8 @@ const form = reactive({
   category: '厨房设备',
   price: '',
   originPrice: '',
+  condition: '轻微使用痕迹',
+  image: '',
   description: '',
 })
 

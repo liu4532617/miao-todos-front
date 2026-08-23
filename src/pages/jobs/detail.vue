@@ -27,11 +27,11 @@
           </view>
           <view class="meta">
             <z-icon name="clock" :size="14" color="#718083" />
-            <text>{{ job.workTime }}</text>
+            <text>{{ job.fulltime ? '全职' : '兼职/钟点' }}</text>
           </view>
           <view class="meta">
             <z-icon name="map-pin" :size="14" color="#718083" />
-            <text>距你 {{ job.distance }} km · {{ job.district }}</text>
+            <text>{{ job.location || job.district }}</text>
           </view>
           <view class="meta">
             <z-icon name="user" :size="14" color="#718083" />
@@ -50,8 +50,16 @@
           <text class="desc-value">{{ job.experience }}</text>
         </view>
         <view class="desc-line">
+          <text class="desc-label">学历要求</text>
+          <text class="desc-value">{{ job.education }}</text>
+        </view>
+        <view class="desc-line">
           <text class="desc-label">工作性质</text>
           <text class="desc-value">{{ job.fulltime ? '全职' : '兼职/钟点' }}</text>
+        </view>
+        <view class="desc-line">
+          <text class="desc-label">发布信息</text>
+          <text class="desc-value">浏览 {{ job.viewed }} · 投递 {{ job.candidates }}</text>
         </view>
         <view class="desc-line">
           <text class="desc-label">发布时间</text>
@@ -59,6 +67,14 @@
         </view>
         <view class="desc-divider" />
         <text class="desc-text">{{ job.description }}</text>
+      </view>
+
+      <!-- 任职要求 -->
+      <view v-if="job.requirement" class="section-title">
+        <text class="title">任职要求</text>
+      </view>
+      <view v-if="job.requirement" class="card">
+        <text class="desc-text">{{ job.requirement }}</text>
       </view>
 
       <!-- 门店信息 -->
