@@ -67,7 +67,7 @@ export function mapJob(j) {
     createdAt: fmtTime(j.createTime) || j.createdAt,
     viewed: j.viewed ?? j.viewCount ?? 0,
     candidates: j.candidates ?? j.applyCount ?? 0,
-    headcount: j.headcount ?? 1,
+    headcount: j.headcount ?? j.headCount ?? 1,
     workTime: j.workTime || '面议',
   }
 }
@@ -79,6 +79,7 @@ export function toJobPayload(j) {
   return {
     title: j.title,
     company: j.restaurant,
+    companyLogo: j.companyLogo || '',
     location: j.location || '广州·海珠区',
     salaryMin: Number(j.salaryMin) || 0,
     salaryMax: Number(j.salaryMax) || 0,
@@ -88,6 +89,8 @@ export function toJobPayload(j) {
     tags: Array.isArray(j.tags) ? j.tags.join(',') : j.tags || '',
     description: j.description || '',
     requirement: j.requirement || '',
+    headCount: Number(j.headcount) || 1,
+    workTime: j.workTime || '',
     status: 1,
   }
 }
@@ -188,6 +191,8 @@ export function toResumePayload(r) {
     education: r.education || '',
     school: r.school || '',
     major: r.major || '',
+    salary: r.salary || '',
+    location: r.location || '',
     workYears: r.years ? `${r.years}年` : '',
     skills: skillParts.filter((v, i, a) => a.indexOf(v) === i).join(','),
     experience: r.experience || '',
