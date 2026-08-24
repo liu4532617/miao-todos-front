@@ -66,14 +66,49 @@
 
 <script setup>
 import { nextTick, ref } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onUnload } from '@dcloudio/uni-app'
 import { getChats, getMessages, sendMessage } from '@/api/chat'
+import { connect, onMessage, sendChatMessage } from '@/utils/socket'
+import { getStoredUser } from '@/utils/storage'
 
 const chats = ref([])
 const activeChat = ref(null)
 const messages = ref([])
 const inputText = ref('')
 const scrollInto = ref('')
+
+let unsubscribe = null
+let meId = getStoredUser()?.id ?? getStoredUser()?.userId
+
+function fmtTime(t) {
+  if (!t) return ''
+  return String(t).replace('T', ' ').slice(5, 16)
+}
+
+function handleWsMessage(msg) {
+  if (!msg || msg.type !== 'message') return
+  const d = msg.data || {}
+  // 更新会话列表
+  const c = chats.value.find((x) => x.id === d.chatId)
+  if (c) {
+    c.lastMessage = d.content
+    c.time = '刚刚'
+    const inThread = activeChat.value && activeChat.value.id === d.chatId
+    if (!inThread && d.senderId !== meId) {
+      c.unread = (c.unread || 0) + 1
+    }
+  }
+  // 当前会话直接渲染
+  if (activeChat.value && activeChat.value.id === d.chatId) {
+    messages.value.push({
+      id: d.id || Date.now(),
+      from: d.senderId === meId ? 'me' : 'them',
+      content: d.content,
+      time: fmtTime(d.createTime),
+    })
+    scrollToBottom()
+  }
+}
 
 function closeThread() {
   if (activeChat.value) {
@@ -86,6 +121,7 @@ function closeThread() {
 
 async function openChat(c) {
   activeChat.value = c
+  c.unread = 0
   try {
     messages.value = await getMessages(c.id)
   } catch (e) {
@@ -94,15 +130,24 @@ async function openChat(c) {
   scrollToBottom()
 }
 
-async function send() {
+function send() {
   const content = inputText.value.trim()
   if (!content) return
-  messages.value.push({ id: Date.now(), from: 'me', content, time: '刚刚' })
   inputText.value = ''
-  scrollToBottom()
-  try {
-    await sendMessage(activeChat.value.id, content)
-  } catch (e) {}
+  // 走 WebSocket 实时发送(服务端回执推送,无需本地渲染)
+  const ok = sendChatMessage(activeChat.value.id, content)
+  if (!ok) {
+    // WebSocket 未就绪时降级 HTTP,本地渲染
+    sendMessage(activeChat.value.id, content)
+      .then(() => {
+        messages.value.push({ id: Date.now(), from: 'me', content, time: '刚刚' })
+        scrollToBottom()
+      })
+      .catch(() => {
+        inputText.value = content
+        uni.showToast({ title: '发送失败,请重试', icon: 'none' })
+      })
+  }
 }
 
 function scrollToBottom() {
@@ -113,11 +158,17 @@ function scrollToBottom() {
 }
 
 onLoad(async () => {
+  connect()
+  unsubscribe = onMessage(handleWsMessage)
   try {
     chats.value = await getChats()
   } catch (e) {
     chats.value = []
   }
+})
+
+onUnload(() => {
+  if (unsubscribe) unsubscribe()
 })
 </script>
 
