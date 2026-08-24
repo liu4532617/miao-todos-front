@@ -13,6 +13,7 @@
 export const API = {
   /* ===== 认证 ===== */
   login: '/auth/login',
+  wxLogin: '/auth/wx-login',
 
   /* ===== 用户 ===== */
   profile: '/user/profile',
@@ -24,6 +25,7 @@ export const API = {
   jobsMine: '/jobs/mine',
   jobDetail: (id) => `/jobs/${id}`,
   jobStatus: (id) => `/jobs/${id}/status`,
+  jobHired: (id) => `/jobs/${id}/hired`,
   jobApply: (id) => `/jobs/${id}/apply`,
   jobFavorite: (id) => `/jobs/${id}/favorite`,
   favorites: '/favorites',
@@ -32,6 +34,7 @@ export const API = {
   resumes: '/resumes',
   resumeDetail: (id) => `/resumes/${id}`,
   resumeMine: '/resumes/mine',
+  seekCards: '/resumes/seek-cards',
 
   /* ===== 面试 ===== */
   interviews: '/interviews',
@@ -46,6 +49,18 @@ export const API = {
   /* ===== 沟通 ===== */
   chats: '/chats',
   chatMessages: (id) => `/chats/${id}/messages`,
+
+  /* ===== 试工单 ===== */
+  trials: '/trials',
+  trialsMine: '/trials/mine',
+  trialsReceived: '/trials/received',
+  trialStatus: (id) => `/trials/${id}/status`,
+
+  /* ===== 联系方式申请 ===== */
+  contactApplies: '/contact-applies',
+  contactApplyStatus: (id) => `/contact-applies/${id}/status`,
+  contactAppliesMine: '/contact-applies/mine',
+  contactAppliesReceived: '/contact-applies/received',
 
   /* ===== 动态 / 投递记录 ===== */
   dynamics: '/dynamics',

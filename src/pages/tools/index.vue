@@ -1,57 +1,83 @@
 <template>
   <view class="page">
     <!-- 导航栏 -->
-    <nav-bar title="招聘">
+    <nav-bar :title="'灶台招工'">
       <template #right>
-        <view class="round-btn" @click="onBell">
-          <z-icon name="bell" :size="18" color="#17292c" />
-        </view>
+        <view class="loc-chip" @click="toast('区域切换开发中')">📍 城东 ▾</view>
       </template>
     </nav-bar>
 
     <view class="content">
+      <!-- 品牌区:slogan + 实时数字 -->
+      <view class="brand-hero">
+        <view class="bh-post" @click="goPostJob">📢 发岗位</view>
+        <text class="bh-slogan">招对一个人，\n后厨就顺一整天。</text>
+        <view class="bh-stats">
+          <view class="bh-stat">
+            <text class="num">{{ stats.jobs }}</text>
+            <text class="lab">今日在招</text>
+          </view>
+          <view class="bh-stat">
+            <text class="num">{{ stats.companies }}</text>
+            <text class="lab">附近门店</text>
+          </view>
+          <view class="bh-stat">
+            <text class="num">{{ stats.hiredToday }}</text>
+            <text class="lab">今日招到</text>
+          </view>
+          <view class="bh-stat">
+            <text class="num">{{ stats.trialsToday }}</text>
+            <text class="lab">今日试工</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 功能入口(不再二选一身份,四个动作随时用) -->
+      <view class="act-grid">
+        <view class="act primary" @click="goPostJob">
+          <text class="ai">📢</text>
+          <text class="at">发岗位</text>
+          <text class="as">老板</text>
+        </view>
+        <view class="act" @click="goPostResume">
+          <text class="ai">🙋</text>
+          <text class="at">发求职卡</text>
+          <text class="as">找活</text>
+        </view>
+        <view class="act" @click="goSearch">
+          <text class="ai">🔍</text>
+          <text class="at">找工作</text>
+          <text class="as">岗位</text>
+        </view>
+        <view class="act" @click="goResumeList">
+          <text class="ai">🧑‍🍳</text>
+          <text class="at">找人才</text>
+          <text class="as">求职卡</text>
+        </view>
+      </view>
+
       <search-bar placeholder="搜岗位、人才或餐厅" @click="goSearch" />
 
-      <!-- Hero 卡片 -->
-      <view class="hero-card">
-        <view class="hero-deco" />
-        <text class="eyebrow">TODAY'S HIRING NOTE</text>
-        <text class="hero-title">招对一个人，\n后厨就顺一整天。</text>
-        <view class="go" @click="goPostJob">
-          <text>发布招聘</text>
-          <z-icon name="arrow-right" :size="14" color="#ffd35c" />
-        </view>
-      </view>
-
-      <!-- 招聘管理 -->
-      <view class="section-title">
-        <text class="title">招聘管理</text>
-        <text class="more">把招人这件事理清楚</text>
-      </view>
-      <view class="tool-grid">
-        <view class="tool" v-for="t in tools" :key="t.name" @click="onTool(t)">
-          <view class="tool-icon" :style="{ background: t.bg, color: t.color }">
-            <z-icon :name="t.icon" :size="26" :color="t.color" />
-          </view>
-          <text class="tool-name">{{ t.name }}</text>
-        </view>
-      </view>
-
-      <!-- 在招岗位（我发布的岗位，按发布日期排序） -->
+      <!-- 在招岗位（我发布的岗位） -->
       <view class="section-title">
         <text class="title">在招岗位</text>
-        <text class="more">按发布日期排序</text>
+        <text class="more" @click="goPostJob">发布新岗位 ›</text>
       </view>
 
       <view v-if="myJobs.length" class="job-list">
         <view v-for="j in myJobs" :key="j.id" class="job-row card" @click="goJobDetail(j)">
           <view class="job-top">
             <view class="logo" :style="{ background: j.logoColor || '#e65a37' }">
-              <text>{{ j.logoText || j.title[0] }}</text>
+              <text>{{ j.logoText || (j.title || '岗')[0] }}</text>
             </view>
             <view class="info">
               <text class="title ellipsis">{{ j.title }}</text>
               <text class="company ellipsis">{{ j.restaurant }}</text>
+              <view class="tag-row">
+                <text v-if="j.contactVisibility === 'PUBLIC'" class="tag blue">📞 电话公开</text>
+                <text v-else-if="j.contactVisibility === 'PRIVATE'" class="tag lock">🔒 私密</text>
+                <text v-else class="tag">💬 聊后解锁</text>
+              </view>
             </view>
             <text class="salary">{{ j.salary }}</text>
           </view>
@@ -59,10 +85,10 @@
             <text class="time">发布于 {{ j.createdAt }}</text>
             <view
               class="status-chip"
-              :class="j.status === 'open' ? 'on' : 'off'"
+              :class="j.status === 'open' ? 'on' : j.status === 'hired' ? 'hired' : 'off'"
               @click.stop="toggleJob(j)"
             >
-              {{ j.status === 'open' ? '招聘中' : '已下架' }}
+              {{ j.status === 'open' ? '招聘中' : j.status === 'hired' ? '已招到 ✓' : '已下架' }}
             </view>
           </view>
         </view>
@@ -111,16 +137,11 @@
 <script setup>
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
-import { getDynamics } from '@/api/message'
+import { getDynamics, getStatistics } from '@/api/message'
 import { getMyJobs, updateJobStatus } from '@/api/job'
 import { toast } from '@/utils/feedback'
 
-const tools = [
-  { name: '发布岗位', icon: 'briefcase', bg: '#ffe4d7', color: '#d94b23', url: '/pages/job/post' },
-  { name: '人才简历', icon: 'document-text', bg: '#dcefe9', color: '#268577', url: '/pages/resume/list' },
-  { name: '面试安排', icon: 'calendar', bg: '#e1eafa', color: '#506fb5', url: '/pages/interview/index' },
-]
-
+const stats = ref({ jobs: 0, companies: 0, hiredToday: 0, trialsToday: 0 })
 const dynamics = ref([])
 const myJobs = ref([])
 const loading = ref(false)
@@ -137,16 +158,12 @@ function goPostJob() {
   uni.navigateTo({ url: '/pages/job/post' })
 }
 
+function goPostResume() {
+  uni.navigateTo({ url: '/pages/resume/my' })
+}
+
 function goResumeList() {
   uni.navigateTo({ url: '/pages/resume/list' })
-}
-
-function onBell() {
-  toast('消息中心暂未开启')
-}
-
-function onTool(t) {
-  uni.navigateTo({ url: t.url })
 }
 
 function goJobDetail(j) {
@@ -154,11 +171,19 @@ function goJobDetail(j) {
 }
 
 async function toggleJob(j) {
-  const next = j.status === 'open' ? 'closed' : 'open'
+  // 已招到 → 重新招聘(上架);招聘中 → 标记已招到;已下架 → 上架
+  let next
+  if (j.status === 'hired') {
+    next = 'open'
+  } else if (j.status === 'open') {
+    next = 'hired'
+  } else {
+    next = 'open'
+  }
   try {
-    await updateJobStatus(j.id, next)
+    await updateJobStatus(j.id, next === 'hired' ? 2 : next === 'open' ? 1 : 0)
     j.status = next
-    toast(next === 'open' ? '已上架' : '已下架')
+    toast(next === 'hired' ? '已标记招到 ✓' : next === 'open' ? '已上架' : '已下架')
   } catch (e) {}
 }
 
@@ -183,6 +208,9 @@ async function load() {
   } catch (e) {
     dynamics.value = []
   }
+  try {
+    stats.value = await getStatistics()
+  } catch (e) {}
   loading.value = false
 }
 
@@ -200,115 +228,129 @@ onShow(load)
   padding: 0 32rpx;
 }
 
-.round-btn {
-  width: 70rpx;
-  height: 70rpx;
-  border-radius: 50%;
+.loc-chip {
+  font-size: 22rpx;
+  color: $muted;
   background: #eef0e9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 999rpx;
+  padding: 8rpx 20rpx;
 }
 
-/* Hero */
-.hero-card {
+/* 品牌区 */
+.brand-hero {
   position: relative;
   margin-top: 28rpx;
-  min-height: 330rpx;
   border-radius: 40rpx;
-  padding: 34rpx;
+  padding: 36rpx 34rpx 30rpx;
   overflow: hidden;
   color: #fffdf7;
-  background: #263f42;
+  background: linear-gradient(135deg, #e65a2a, #f0863f);
 
-  .hero-deco {
+  .bh-post {
     position: absolute;
-    right: -44rpx;
-    bottom: -88rpx;
-    width: 346rpx;
-    height: 346rpx;
-    border: 36rpx solid $yellow;
-    border-radius: 50%;
-    opacity: 0.95;
-
-    &::after {
-      content: '';
-      position: absolute;
-      right: 110rpx;
-      top: -70rpx;
-      width: 140rpx;
-      height: 140rpx;
-      background: $orange;
-      border-radius: 48% 52% 48% 55%;
-      transform: rotate(25deg);
-      box-shadow: -38rpx 64rpx 0 -8rpx $jade;
-    }
+    right: 28rpx;
+    top: 28rpx;
+    background: #fff;
+    color: $orange;
+    font-size: 22rpx;
+    font-weight: 800;
+    border-radius: 999rpx;
+    padding: 10rpx 24rpx;
   }
 
-  .eyebrow {
+  .bh-slogan {
     display: block;
-    font-size: 18rpx;
-    letter-spacing: 2rpx;
-    color: #c8d4c7;
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-title {
-    display: block;
-    margin-top: 16rpx;
-    font-size: 46rpx;
-    font-weight: 700;
+    font-size: 44rpx;
+    font-weight: 800;
+    line-height: 1.35;
     letter-spacing: -2rpx;
-    line-height: 1.3;
-    max-width: 430rpx;
-    position: relative;
-    z-index: 1;
     white-space: pre-line;
   }
 
-  .go {
-    margin-top: 26rpx;
-    display: inline-flex;
-    align-items: center;
-    gap: 8rpx;
-    color: $yellow;
-    font-size: 24rpx;
-    font-weight: 700;
-    position: relative;
-    z-index: 1;
-    padding: 8rpx 0;
+  .bh-stats {
+    display: flex;
+    gap: 0;
+    margin-top: 28rpx;
+
+    .bh-stat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .num {
+        font-size: 36rpx;
+        font-weight: 800;
+      }
+
+      .lab {
+        font-size: 20rpx;
+        opacity: 0.85;
+        margin-top: 2rpx;
+      }
+    }
   }
 }
 
-/* 工具宫格 */
-.tool-grid {
+/* 功能入口 */
+.act-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20rpx;
-  margin-top: 8rpx;
+  gap: 16rpx;
+  margin-top: 24rpx;
+
+  .act {
+    background: #fff;
+    border: 1rpx solid $line;
+    border-radius: 24rpx;
+    padding: 20rpx 0 16rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .ai {
+      font-size: 36rpx;
+    }
+
+    .at {
+      font-size: 24rpx;
+      font-weight: 700;
+      color: $ink;
+      margin-top: 6rpx;
+    }
+
+    .as {
+      font-size: 18rpx;
+      color: $muted;
+      margin-top: 2rpx;
+    }
+
+    &.primary {
+      background: $orange;
+      border-color: $orange;
+
+      .at,
+      .as {
+        color: #fff;
+      }
+    }
+  }
 }
 
-.tool {
+/* 区块标题 */
+.section-title {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12rpx;
-  padding: 12rpx 0;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 36rpx 0 16rpx;
 
-  .tool-icon {
-    width: 108rpx;
-    height: 108rpx;
-    border-radius: 36rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .title {
+    font-size: 32rpx;
+    font-weight: 800;
   }
 
-  .tool-name {
+  .more {
     font-size: 22rpx;
-    color: $ink;
-    white-space: nowrap;
+    color: $muted;
   }
 }
 
@@ -355,6 +397,34 @@ onShow(load)
         color: $muted;
         margin-top: 6rpx;
       }
+
+      .tag-row {
+        display: flex;
+        gap: 8rpx;
+        margin-top: 8rpx;
+
+        .tag {
+          font-size: 18rpx;
+          font-weight: 600;
+          border-radius: 8rpx;
+          padding: 4rpx 12rpx;
+
+          &.blue {
+            background: #eaf2fb;
+            color: #2c6cb0;
+          }
+
+          &.lock {
+            background: #f3f0e8;
+            color: #7d776a;
+          }
+
+          &:not(.blue):not(.lock) {
+            background: #fff4ec;
+            color: #c0561e;
+          }
+        }
+      }
     }
 
     .salary {
@@ -392,6 +462,11 @@ onShow(load)
       &.off {
         color: #84908e;
         background: #eff0ea;
+      }
+
+      &.hired {
+        color: #fff;
+        background: $orange;
       }
     }
   }

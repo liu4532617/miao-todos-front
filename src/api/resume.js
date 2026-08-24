@@ -27,6 +27,11 @@ export function createResume(data) {
   return post(API.resumes, toResumePayload(data))
 }
 
+/** 求职卡广场 */
+export function getSeekCards() {
+  return get(API.seekCards).then((res) => (Array.isArray(res) ? res.map(mapResume) : []))
+}
+
 /** 更新我的简历（后端为 PUT /resumes/{id}） */
 export function updateMyResume(id, data) {
   return put(API.resumeDetail(id), toResumePayload(data))

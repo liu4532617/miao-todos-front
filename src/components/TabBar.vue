@@ -26,7 +26,7 @@ const props = defineProps({
 const tabs = [
   { label: '招聘', icon: 'briefcase', path: '/pages/tools/index' },
   { label: '求职', icon: 'compass', path: '/pages/jobs/index' },
-  { label: '餐饮跳蚤', icon: 'bag', path: '/pages/market/index' },
+  { label: '集市', icon: 'bag', path: '/pages/market/index' },
   { label: '我的', icon: 'user', path: '/pages/mine/index' },
 ]
 

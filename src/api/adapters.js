@@ -54,7 +54,9 @@ export function mapPage(res, mapper) {
 /** 后端 UniJob → 前端 job 卡片字段 */
 export function mapJob(j) {
   if (!j) return j
-  const status = j.status === 0 || j.status === 'closed' ? 'closed' : 'open'
+  let status = 'open'
+  if (j.status === 0 || j.status === 'closed') status = 'closed'
+  else if (j.status === 2 || j.status === 'hired') status = 'hired'
   return {
     ...j,
     restaurant: j.company || j.restaurant,
@@ -173,6 +175,10 @@ export function mapResume(r) {
     status: r.status === 'interview' || r.status === 1 ? 'interview' : 'new',
     appliedAt: fmtTime(r.createTime) || r.appliedAt,
     distance: Number(r.distance) || 0,
+    availableTime: r.availableTime || '',
+    needAccommodation: r.needAccommodation || 0,
+    seekStatus: r.seekStatus ?? 1,
+    contactVisibility: r.contactVisibility || 'CHAT_UNLOCK',
   }
 }
 
@@ -199,6 +205,10 @@ export function toResumePayload(r) {
     experience: r.experience || '',
     selfEvaluation: r.intro || '',
     status: 1,
+    availableTime: r.availableTime || '',
+    needAccommodation: r.needAccommodation ? 1 : 0,
+    seekStatus: r.seekStatus ?? 1,
+    contactVisibility: r.contactVisibility || 'CHAT_UNLOCK',
   }
 }
 
@@ -283,11 +293,11 @@ export function mapApplication(a) {
 export function mapStatistics(s) {
   if (!s) return s
   return {
-    applications: s.applicationCount ?? s.applications ?? 0,
-    favorites: s.favoriteCount ?? s.favorites ?? 0,
-    products: s.productCount ?? s.products ?? 0,
-    views: s.jobCount ?? s.views ?? 0,
-    resumeCount: s.resumeCount ?? 0,
-    interviewCount: s.interviewCount ?? 0,
+    jobs: s.jobs ?? 0,
+    companies: s.companies ?? 0,
+    hiredToday: s.hiredToday ?? 0,
+    trialsToday: s.trialsToday ?? 0,
+    resumes: s.resumes ?? 0,
+    products: s.products ?? 0,
   }
 }
