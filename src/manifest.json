@@ -1,6 +1,6 @@
 {
     "name" : "灶台招工",
-    "appid" : "",
+    "appid" : "wx5a14f59df26b5ea1",
     "description" : "面向餐饮从业者的本地招聘、求职与设备流转平台",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx5a14f59df26b5ea1",
         "setting" : {
             "urlCheck" : false
         },
