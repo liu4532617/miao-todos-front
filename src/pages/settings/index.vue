@@ -20,7 +20,7 @@
           <z-icon name="chevron-right" :size="16" color="#a7b1b0" />
         </view>
         <view class="my-row" @click="onAbout">
-          <text class="row-name">关于灶台招工</text>
+          <text class="row-name">关于灶台帮</text>
           <z-icon name="chevron-right" :size="16" color="#a7b1b0" />
         </view>
       </view>
@@ -37,7 +37,7 @@
 
       <view class="logout-btn" @click="onLogout">退出登录</view>
 
-      <view class="version">灶台招工 v1.0.0</view>
+      <view class="version">灶台帮 v1.0.0</view>
     </view>
   </view>
 </template>
@@ -58,7 +58,7 @@ function onPrivacy() {
   toast('隐私设置')
 }
 function onAbout() {
-  uni.showModal({ title: '关于灶台招工', content: '面向餐饮从业者的本地招聘、求职与设备流转平台。', showCancel: false })
+  uni.showModal({ title: '关于灶台帮', content: '面向餐饮从业者的本地招聘、求职与设备流转平台。', showCancel: false })
 }
 function onClearCache() {
   toast('缓存已清除')

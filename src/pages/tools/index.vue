@@ -1,7 +1,7 @@
 <template>
   <view class="page">
     <!-- 导航栏 -->
-    <nav-bar :title="'灶台招工'">
+    <nav-bar :title="'灶台帮'">
       <template #right>
         <view class="loc-chip" @click="toast('区域切换开发中')">📍 城东 ▾</view>
       </template>

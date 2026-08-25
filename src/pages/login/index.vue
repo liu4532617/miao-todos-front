@@ -7,7 +7,7 @@
       <view class="brand-mark">
         <z-icon name="chef-hat" :size="26" color="#fff" />
       </view>
-      <text class="brand-name">灶台招工</text>
+      <text class="brand-name">灶台帮</text>
       <text class="slogan">让合适的人，找到合适的灶台</text>
     </view>
 
