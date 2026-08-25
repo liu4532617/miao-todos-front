@@ -1,0 +1,1 @@
+<view class="empty data-v-e4cb1270"><z-icon wx:if="{{a}}" class="data-v-e4cb1270" u-i="e4cb1270-0" bind:__l="__l" u-p="{{a}}"/><text class="empty-text data-v-e4cb1270">{{b}}</text><text wx:if="{{c}}" class="empty-sub data-v-e4cb1270">{{d}}</text><view wx:if="{{e}}" class="empty-btn data-v-e4cb1270" bindtap="{{g}}">{{f}}</view></view>

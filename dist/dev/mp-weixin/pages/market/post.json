@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "发布闲置",
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "empty": "../../components/Empty",
+    "z-icon": "../../components/Icon"
+  }
+}

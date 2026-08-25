@@ -1,0 +1,1 @@
+"use strict";const e=require("./request.js"),r=require("./urls.js"),t=require("./adapters.js");exports.createInterview=function(t){return e.post(r.API.interviews,t)},exports.getInterviews=function(s){return e.get(r.API.interviews,s).then(e=>t.mapPage(e,t.mapInterview))};

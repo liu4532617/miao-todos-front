@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "招聘",
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "search-bar": "../../components/SearchBar",
+    "empty": "../../components/Empty",
+    "z-icon": "../../components/Icon",
+    "tab-bar": "../../components/TabBar"
+  }
+}

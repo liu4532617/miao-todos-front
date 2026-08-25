@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "设置",
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "z-icon": "../../components/Icon"
+  }
+}
