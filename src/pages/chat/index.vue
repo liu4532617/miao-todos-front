@@ -6,7 +6,10 @@
 
       <view class="content">
         <view v-for="c in chats" :key="c.id" class="chat-row" @click="openChat(c)">
-          <view class="avatar">{{ c.avatarText }}</view>
+          <view class="avatar">
+            <image v-if="c.peerAvatar" class="avatar-img" :src="c.peerAvatar" mode="aspectFill" />
+            <text v-else>{{ c.avatarText }}</text>
+          </view>
           <view class="info">
             <view class="top">
               <text class="name">{{ c.name }}</text>
@@ -201,6 +204,12 @@ onUnload(() => {
     align-items: center;
     justify-content: center;
     flex: none;
+    overflow: hidden;
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .info {

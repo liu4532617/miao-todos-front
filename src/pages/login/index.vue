@@ -52,7 +52,7 @@
         </button>
         <input v-model="nickname" class="nickname-input" type="nickname" placeholder="填写昵称" placeholder-class="ph" />
         <view class="guide-btns">
-          <view class="guide-btn ghost" @click="skipGuide">跳过</view>
+          <view class="guide-btn ghost" @click="skipGuide">使用默认头像</view>
           <view class="guide-btn main" @click="saveAvatar">保存</view>
         </view>
       </view>

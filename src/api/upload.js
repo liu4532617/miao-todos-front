@@ -1,10 +1,11 @@
-import { post } from './request'
+import { config } from '@/config'
 
 /** 上传图片,返回可访问 URL */
 export async function uploadImage(filePath) {
   return new Promise((resolve, reject) => {
     uni.uploadFile({
-      url: '/api/uni/upload',
+      // H5 走相对路径; 小程序端必须是完整域名(HTTPS)
+      url: `${config.baseURL.replace(/\/$/, '')}/uni/upload`,
       filePath,
       name: 'file',
       success: (res) => {

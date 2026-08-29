@@ -5,8 +5,11 @@
     <view class="content">
       <!-- 个人信息卡 -->
       <view class="profile-head" @click="onProfileClick">
-        <view class="avatar">
-          <z-icon name="chef-hat" :size="26" color="#534521" />
+        <view class="avatar-wrap">
+          <image class="avatar-img" :src="user.avatar || DEFAULT_AVATAR" mode="aspectFill" @click.stop="onChangeAvatar" />
+          <view class="avatar-edit">
+            <z-icon name="camera" :size="16" color="#fff" />
+          </view>
         </view>
         <text class="name">{{ user.name || '登录后体验完整功能' }}</text>
         <text class="sub" v-if="user.name">{{ authText(user.companyAuth) }} · {{ user.city || '未设置城市' }}</text>
@@ -76,7 +79,11 @@ import { computed, ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/store/user'
 import { getMyCompany } from '@/api/company'
+import { updateProfile } from '@/api/auth'
+import { uploadImage } from '@/api/upload'
 import { toast } from '@/utils/feedback'
+
+const DEFAULT_AVATAR = '/static/default-avatar.png'
 
 const store = useUserStore()
 
@@ -98,6 +105,38 @@ function onProfileClick() {
   if (!store.token) {
     uni.navigateTo({ url: '/pages/login/index' })
   }
+}
+
+/** 点击头像: 拍照/相册 → 上传 → 保存头像 */
+function onChangeAvatar() {
+  if (!store.token) {
+    return uni.navigateTo({ url: '/pages/login/index' })
+  }
+  uni.showActionSheet({
+    itemList: ['拍照', '从相册选择'],
+    success: (res) => {
+      uni.chooseImage({
+        count: 1,
+        sizeType: ['compressed'],
+        sourceType: res.tapIndex === 0 ? ['camera'] : ['album'],
+        success: async (r) => {
+          const path = r.tempFilePaths[0]
+          if (!path) return
+          uni.showLoading({ title: '上传中...' })
+          try {
+            const url = await uploadImage(path)
+            await updateProfile({ avatar: url })
+            await store.fetchProfile()
+            toast('头像已更新')
+          } catch (e) {
+            toast('头像上传失败，请重试')
+          } finally {
+            uni.hideLoading()
+          }
+        },
+      })
+    },
+  })
 }
 
 function goApplications() {
@@ -167,16 +206,36 @@ onShow(onShowHandler)
     line-height: 1;
   }
 
-  .avatar {
-    width: 96rpx;
-    height: 96rpx;
+  .avatar-wrap {
+    width: 112rpx;
+    height: 112rpx;
     border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  .avatar-img {
+    width: 112rpx;
+    height: 112rpx;
+    border-radius: 50%;
+    border: 4rpx solid rgba(255, 255, 255, 0.9);
     background: #ffd45d;
+    display: block;
+  }
+
+  .avatar-edit {
+    position: absolute;
+    right: -4rpx;
+    bottom: -4rpx;
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    background: rgba(23, 41, 44, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    z-index: 1;
+    border: 3rpx solid rgba(255, 255, 255, 0.9);
   }
 
   .name {
