@@ -1,1 +1,0 @@
-"use strict";const r=require("./request.js"),e=require("./urls.js");exports.getProfile=function(){return r.get(e.API.profile)},exports.login=function(t){return r.post(e.API.login,t)},exports.updateProfile=function(t){return r.put(e.API.profile,t)},exports.wxLogin=function(t){return r.post(e.API.wxLogin,t)};

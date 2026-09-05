@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "沟通记录",
-  "usingComponents": {
-    "nav-bar": "../../components/NavBar",
-    "empty": "../../components/Empty",
-    "z-icon": "../../components/Icon"
-  }
-}

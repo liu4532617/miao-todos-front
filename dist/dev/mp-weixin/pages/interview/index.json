@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "面试安排",
-  "usingComponents": {
-    "nav-bar": "../../components/NavBar",
-    "z-icon": "../../components/Icon",
-    "empty": "../../components/Empty"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "我的简历",
-  "usingComponents": {
-    "nav-bar": "../../components/NavBar"
-  }
-}

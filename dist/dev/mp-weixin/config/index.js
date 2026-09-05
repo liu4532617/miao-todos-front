@@ -1,1 +1,0 @@
-"use strict";const t={VITE_API_BASE_URL:"https://api.miao-zaotai.com/api",VITE_USE_MOCK:"false"}||{},o={baseURL:t.VITE_API_BASE_URL||"https://fastfoodhut.com/api",useMock:"true"===(t.VITE_USE_MOCK||"true"),timeout:15e3};exports.config=o;

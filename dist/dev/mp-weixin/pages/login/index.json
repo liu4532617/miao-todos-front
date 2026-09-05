@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "登录",
-  "usingComponents": {
-    "z-icon": "../../components/Icon"
-  }
-}

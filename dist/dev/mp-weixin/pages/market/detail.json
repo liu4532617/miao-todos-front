@@ -1,8 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "商品详情",
-  "usingComponents": {
-    "nav-bar": "../../components/NavBar",
-    "z-icon": "../../components/Icon"
-  }
-}

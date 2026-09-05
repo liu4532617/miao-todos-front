@@ -1,1 +1,0 @@
-"use strict";const o=require("../common/vendor.js");exports.success=function(s="操作成功"){o.index.showToast({title:s,icon:"success"})},exports.toast=function(s,t="none",e=2e3){o.index.showToast({title:s,icon:t,duration:e})};

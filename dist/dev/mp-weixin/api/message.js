@@ -1,1 +1,0 @@
-"use strict";const t=require("./request.js"),s=require("./urls.js"),e=require("./adapters.js");exports.getDynamics=function(){return t.get(s.API.dynamics).then(t=>(Array.isArray(t)?t:(null==t?void 0:t.list)||[]).map(e.mapDynamic))},exports.getStatistics=function(){return t.get(s.API.statistics).then(e.mapStatistics)};

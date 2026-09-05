@@ -9,7 +9,10 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
+# 忽略除 mp-weixin 编译产物外的 dist 内容(产物入库便于直接导入开发者工具)
+dist/*
+!dist/build/
+!dist/build/mp-weixin/
 *.local
 
 # Editor directories and files

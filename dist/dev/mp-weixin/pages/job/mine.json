@@ -1,8 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "在招职位",
-  "usingComponents": {
-    "nav-bar": "../../components/NavBar",
-    "empty": "../../components/Empty"
-  }
-}

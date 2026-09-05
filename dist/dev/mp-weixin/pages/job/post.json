@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "发布岗位",
-  "usingComponents": {
-    "nav-bar": "../../components/NavBar"
-  }
-}

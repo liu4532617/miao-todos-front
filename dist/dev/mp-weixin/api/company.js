@@ -1,1 +1,0 @@
-"use strict";const t=require("./request.js");exports.createCompany=function(e){return t.post("/company",e)},exports.getMyCompany=function(){return t.get("/company/mine")},exports.updateCompany=function(e){return t.put("/company",e)};

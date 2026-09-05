@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTitleText": "我的",
-  "usingComponents": {
-    "nav-bar": "../../components/NavBar",
-    "z-icon": "../../components/Icon",
-    "tab-bar": "../../components/TabBar"
-  }
-}
