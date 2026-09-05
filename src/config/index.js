@@ -19,4 +19,4 @@ export const config = {
   pageSize: 10,
 }
 
-export const APP_NAME = '灶台帮'
+export const APP_NAME = '厨神帮'

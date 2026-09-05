@@ -1,6 +1,6 @@
 <template>
   <view class="page">
-    <nav-bar :title="'灶台帮'">
+    <nav-bar :title="'厨神帮'">
       <template #right>
         <view class="round-btn" @click="onBell">
           <z-icon name="bell" :size="18" color="#17292c" />
