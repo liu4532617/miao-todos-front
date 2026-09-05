@@ -24,12 +24,16 @@ function buildQuery(params) {
   return qs ? `?${qs}` : ''
 }
 
-/* uni.request 适配器：让 axios 同时跑在 H5 与小程序 */
+/* uni.request 适配器:让 axios 同时跑在 H5 与小程序 */
 function uniAdapter(reqConfig) {
   return new Promise((resolve, reject) => {
     let fullUrl = reqConfig.url
     if (reqConfig.baseURL && !/^https?:\/\//.test(reqConfig.url)) {
-      fullUrl = `${reqConfig.baseURL.replace(/\/$/, '')}${reqConfig.url}`
+      // 后端业务接口统一在 /api/uni/* 下;urls.js 及业务文件里的路径均不带 uni 前缀,
+      // 这里统一补上,保证 baseURL 为站点根(/api 或 https://域名/api)时也能正确命中
+      let path = reqConfig.url
+      if (path.startsWith('/') && !path.startsWith('/uni')) path = '/uni' + path
+      fullUrl = `${reqConfig.baseURL.replace(/\/$/, '')}${path}`
     }
     fullUrl += buildQuery(reqConfig.params)
 
