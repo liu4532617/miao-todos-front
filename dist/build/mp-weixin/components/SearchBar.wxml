@@ -1,1 +1,0 @@
-<view class="{{['search-bar', 'data-v-3e27a390', c && 'active']}}" bindtap="{{d}}"><z-icon wx:if="{{a}}" class="data-v-3e27a390" u-i="3e27a390-0" bind:__l="__l" u-p="{{a}}"/><text class="placeholder data-v-3e27a390">{{b}}</text><slot/></view>

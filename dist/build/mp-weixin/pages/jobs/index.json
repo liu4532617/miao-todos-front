@@ -2,10 +2,9 @@
   "navigationStyle": "custom",
   "navigationBarTitleText": "求职",
   "usingComponents": {
-    "z-icon": "../../components/Icon",
     "nav-bar": "../../components/NavBar",
-    "search-bar": "../../components/SearchBar",
     "empty": "../../components/Empty",
+    "z-icon": "../../components/Icon",
     "tab-bar": "../../components/TabBar"
   }
 }
