@@ -3,10 +3,26 @@
     <nav-bar :title="'求职广场'" />
 
     <view class="content">
+      <!-- 品牌 hero -->
+      <view class="hero-card">
+        <text class="hero-title">把求职卡发出去，\n让老板直接找你。</text>
+        <view class="bh-post" @click="goPostResume">🙋 发求职卡</view>
+        <view class="bh-stats">
+          <view class="bh-stat">
+            <text class="num">{{ stats.resumes }}</text>
+            <text class="lab">附近求职者</text>
+          </view>
+          <view class="bh-stat">
+            <text class="num">{{ stats.hiredToday }}</text>
+            <text class="lab">今日上工</text>
+          </view>
+        </view>
+      </view>
+
       <!-- 求职卡片广场 -->
       <view class="feed-head">
-        <text class="feed-title">附近的人正在找活</text>
-        <text class="feed-sub">求职卡片 · 附近 · 最新</text>
+        <text class="feed-title">求职广场</text>
+        <text class="feed-sub">附近 · 最新</text>
       </view>
 
       <view v-if="seekCards.length" class="seek-list">
@@ -59,8 +75,10 @@
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { getSeekCards } from '@/api/resume'
+import { getStatistics } from '@/api/message'
 
 const seekCards = ref([])
+const stats = ref({ resumes: 0, hiredToday: 0 })
 const loading = ref(false)
 
 function goPostResume() {
@@ -78,6 +96,9 @@ async function load() {
   } catch (e) {
     seekCards.value = []
   }
+  try {
+    stats.value = await getStatistics()
+  } catch (e) {}
   loading.value = false
 }
 
@@ -93,6 +114,92 @@ onShow(load)
 
 .content {
   padding: 0 32rpx;
+}
+
+/* 品牌 hero(深绿 + 黄圆 + 橙装饰) */
+.hero-card {
+  position: relative;
+  margin-top: 28rpx;
+  border-radius: 44rpx;
+  padding: 40rpx 36rpx 32rpx;
+  overflow: hidden;
+  color: #fffdf7;
+  background: #263f42;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: -60rpx;
+    bottom: -90rpx;
+    width: 330rpx;
+    height: 330rpx;
+    border: 34rpx solid #ffd35c;
+    border-radius: 50%;
+    opacity: 0.95;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 66rpx;
+    top: 40rpx;
+    width: 130rpx;
+    height: 130rpx;
+    background: #ef5a2a;
+    border-radius: 48% 52% 48% 55%;
+    transform: rotate(25deg);
+    box-shadow: -36rpx 60rpx 0 -8rpx #41a899;
+  }
+
+  .hero-title {
+    display: block;
+    font-size: 44rpx;
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -2rpx;
+    white-space: pre-line;
+    max-width: 440rpx;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bh-post {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 26rpx;
+    background: #fff;
+    color: #ef5a2a;
+    font-size: 22rpx;
+    font-weight: 800;
+    border-radius: 999rpx;
+    padding: 12rpx 26rpx;
+  }
+
+  .bh-stats {
+    display: flex;
+    gap: 48rpx;
+    margin-top: 26rpx;
+    position: relative;
+    z-index: 1;
+
+    .bh-stat {
+      display: flex;
+      flex-direction: column;
+
+      .num {
+        font-size: 36rpx;
+        font-weight: 800;
+      }
+
+      .lab {
+        font-size: 20rpx;
+        opacity: 0.85;
+        margin-top: 2rpx;
+      }
+    }
+  }
 }
 
 /* 广场头部 */

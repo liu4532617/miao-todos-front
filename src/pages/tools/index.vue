@@ -9,10 +9,14 @@
     </nav-bar>
 
     <view class="content">
-      <!-- 广场头部 -->
-      <view class="feed-head">
-        <text class="feed-title">餐厅正在招人</text>
-        <text class="feed-sub">在招岗位 · 最新</text>
+      <!-- 品牌 hero -->
+      <view class="hero-card">
+        <view class="eyebrow">TODAY'S HIRING NOTE</view>
+        <text class="hero-title">招对一个人，\n后厨就顺一整天。</text>
+        <view class="go" @click="goPostJob">
+          <text>发布招聘</text>
+          <z-icon name="arrow-right" :size="13" color="#ffd35c" />
+        </view>
       </view>
 
       <!-- 我发布的(置顶) -->
@@ -134,6 +138,70 @@ onShow(load)
 
 .content {
   padding: 0;
+}
+
+/* 品牌 hero(深绿 + 黄圆 + 橙装饰) */
+.hero-card {
+  position: relative;
+  margin: 26rpx 32rpx 0;
+  min-height: 300rpx;
+  border-radius: 44rpx;
+  padding: 36rpx 36rpx 40rpx;
+  overflow: hidden;
+  color: #fffdf7;
+  background: #263f42;
+  box-sizing: border-box;
+}
+.hero-card::before {
+  content: '';
+  position: absolute;
+  right: -60rpx;
+  bottom: -90rpx;
+  width: 330rpx;
+  height: 330rpx;
+  border: 34rpx solid #ffd35c;
+  border-radius: 50%;
+  opacity: 0.95;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  right: 66rpx;
+  top: 40rpx;
+  width: 130rpx;
+  height: 130rpx;
+  background: #ef5a2a;
+  border-radius: 48% 52% 48% 55%;
+  transform: rotate(25deg);
+  box-shadow: -36rpx 60rpx 0 -8rpx #41a899;
+}
+.eyebrow {
+  font-size: 20rpx;
+  color: #c8d4c7;
+  letter-spacing: 0.1em;
+  position: relative;
+  z-index: 1;
+}
+.hero-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 800;
+  letter-spacing: -0.08em;
+  line-height: 1.28;
+  margin: 18rpx 0 26rpx;
+  max-width: 420rpx;
+  position: relative;
+  z-index: 1;
+}
+.hero-card .go {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  color: #ffd35c;
+  font-size: 24rpx;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
 }
 
 /* 广场头部 */
