@@ -25,7 +25,7 @@ defineEmits(['click'])
 .product {
   background: #fff;
   border: 1rpx solid $line;
-  border-radius: 24rpx;
+  border-radius: 28rpx;
   overflow: hidden;
 }
 

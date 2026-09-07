@@ -77,7 +77,7 @@ button {
 .card {
   background: #fff;
   border: 1rpx solid $line;
-  border-radius: $radius-lg;
+  border-radius: $radius-card;
   padding: 24rpx;
 }
 

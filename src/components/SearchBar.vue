@@ -18,7 +18,7 @@ defineEmits(['click'])
 <style lang="scss" scoped>
 .search-bar {
   height: 84rpx;
-  border-radius: 26rpx;
+  border-radius: 28rpx;
   background: $wash;
   display: flex;
   align-items: center;

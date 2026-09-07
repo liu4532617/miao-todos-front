@@ -38,7 +38,7 @@ defineEmits(['click', 'action'])
   margin: 20rpx 32rpx 0;
   background: #fff;
   border: 1rpx solid $line;
-  border-radius: $radius-lg;
+  border-radius: $radius-card;
   padding: 26rpx;
 }
 
