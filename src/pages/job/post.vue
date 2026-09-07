@@ -227,7 +227,7 @@ async function onSubmit() {
 
   .input {
     height: 76rpx;
-    background: #f3f2ec;
+    background: $wash;
     border-radius: 18rpx;
     padding: 0 24rpx;
     font-size: 26rpx;
@@ -262,7 +262,7 @@ async function onSubmit() {
       width: 64rpx;
       height: 64rpx;
       border-radius: 18rpx;
-      background: #f3f2ec;
+      background: $wash;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -290,7 +290,7 @@ async function onSubmit() {
   .chip {
     padding: 12rpx 24rpx;
     border-radius: 999rpx;
-    background: #f3f2ec;
+    background: $wash;
     color: #5c6c6e;
     font-size: 24rpx;
 
@@ -304,7 +304,7 @@ async function onSubmit() {
 .textarea {
   width: 100%;
   height: 220rpx;
-  background: #f3f2ec;
+  background: $wash;
   border-radius: 18rpx;
   padding: 20rpx;
   font-size: 26rpx;

@@ -119,7 +119,7 @@ onLoad(load)
   width: 70rpx;
   height: 70rpx;
   border-radius: 50%;
-  background: #eef0e9;
+  background: $wash;
   display: flex;
   align-items: center;
   justify-content: center;

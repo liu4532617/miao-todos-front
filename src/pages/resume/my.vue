@@ -276,7 +276,7 @@ onLoad(async (options) => {
 
   .input {
     height: 76rpx;
-    background: #f3f2ec;
+    background: $wash;
     border-radius: 18rpx;
     padding: 0 24rpx;
     font-size: 26rpx;
@@ -310,7 +310,7 @@ onLoad(async (options) => {
   .chip {
     padding: 12rpx 24rpx;
     border-radius: 999rpx;
-    background: #f3f2ec;
+    background: $wash;
     color: #5c6c6e;
     font-size: 24rpx;
 
@@ -324,7 +324,7 @@ onLoad(async (options) => {
 .textarea {
   width: 100%;
   height: 200rpx;
-  background: #f3f2ec;
+  background: $wash;
   border-radius: 18rpx;
   padding: 20rpx;
   font-size: 26rpx;

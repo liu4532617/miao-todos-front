@@ -127,7 +127,7 @@ onShow(load)
   .chip {
     padding: 12rpx 28rpx;
     border-radius: 999rpx;
-    background: #eff0ea;
+    background: $wash;
     color: #5c6c6e;
     font-size: 24rpx;
 
@@ -186,12 +186,12 @@ onShow(load)
         border-radius: 999rpx;
 
         &.upcoming {
-          background: #ffe4d7;
+          background: $orange-wash;
           color: #d94b23;
         }
 
         &.done {
-          background: #dceee7;
+          background: $jade-wash;
           color: #268577;
         }
 
@@ -216,7 +216,7 @@ onShow(load)
       font-size: 22rpx;
       color: #5c6c6e;
       margin-top: 10rpx;
-      background: #f6f6f0;
+      background: $wash;
       border-radius: 12rpx;
       padding: 10rpx 14rpx;
     }

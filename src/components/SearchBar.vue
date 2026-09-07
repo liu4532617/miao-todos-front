@@ -19,7 +19,7 @@ defineEmits(['click'])
 .search-bar {
   height: 84rpx;
   border-radius: 26rpx;
-  background: #f1f1eb;
+  background: $wash;
   display: flex;
   align-items: center;
   gap: 14rpx;

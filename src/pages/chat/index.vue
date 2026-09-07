@@ -261,7 +261,7 @@ onUnload(() => {
 
 .thread {
   height: calc(100vh - 170rpx - env(safe-area-inset-bottom));
-  background: #f6f6f0;
+  background: $wash;
   padding: 24rpx 32rpx;
   box-sizing: border-box;
 
@@ -337,7 +337,7 @@ onUnload(() => {
   .input {
     flex: 1;
     height: 80rpx;
-    background: #f3f2ec;
+    background: $wash;
     border-radius: 999rpx;
     padding: 0 28rpx;
     font-size: 26rpx;

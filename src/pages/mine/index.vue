@@ -307,7 +307,7 @@ onShow(onShowHandler)
 
 .tip-box {
   margin-top: 32rpx;
-  background: #dceee7;
+  background: $jade-wash;
   border-radius: 28rpx;
   padding: 26rpx 28rpx;
   color: #37726b;

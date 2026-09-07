@@ -153,7 +153,7 @@ function goProduct(p) {
   gap: 12rpx;
   width: 100%;
   height: 72rpx;
-  background: #f1f1eb;
+  background: $wash;
   border-radius: 999rpx;
   padding: 0 10rpx 0 24rpx;
 
@@ -185,7 +185,7 @@ function goProduct(p) {
 
     .h-tag {
       padding: 12rpx 26rpx;
-      background: #f1f1eb;
+      background: $wash;
       border-radius: 999rpx;
       font-size: 24rpx;
       color: #5c6c6e;

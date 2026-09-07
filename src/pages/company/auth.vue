@@ -169,7 +169,7 @@ onLoad(async () => {
   border-radius: 28rpx;
 
   &.s1 {
-    background: #dceee7;
+    background: $jade-wash;
     color: #268577;
   }
 
@@ -226,7 +226,7 @@ onLoad(async () => {
 
   .input {
     height: 76rpx;
-    background: #f3f2ec;
+    background: $wash;
     border-radius: 18rpx;
     padding: 0 24rpx;
     font-size: 26rpx;
@@ -237,7 +237,7 @@ onLoad(async () => {
   height: 240rpx;
   border-radius: 18rpx;
   overflow: hidden;
-  background: #f3f2ec;
+  background: $wash;
 
   .license-img {
     width: 100%;
@@ -258,7 +258,7 @@ onLoad(async () => {
 
 .tip-box {
   margin-top: 32rpx;
-  background: #dceee7;
+  background: $jade-wash;
   border-radius: 28rpx;
   padding: 26rpx 28rpx;
   color: #37726b;

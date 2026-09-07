@@ -3,60 +3,72 @@
     <!-- 导航栏 -->
     <nav-bar :title="'厨神帮'">
       <template #right>
-        <view class="loc-chip" @click="toast('区域切换开发中')">📍 城东 ▾</view>
+        <view class="round-btn" @click="toast('消息中心暂未开启')">
+          <z-icon name="bell" :size="18" color="#17292c" />
+        </view>
       </template>
     </nav-bar>
 
     <view class="content">
-      <!-- 品牌区:slogan + 实时数字 -->
-      <view class="brand-hero">
-        <view class="bh-post" @click="goPostJob">📢 发岗位</view>
-        <text class="bh-slogan">招对一个人，\n后厨就顺一整天。</text>
-        <view class="bh-stats">
-          <view class="bh-stat">
-            <text class="num">{{ stats.jobs }}</text>
-            <text class="lab">今日在招</text>
-          </view>
-          <view class="bh-stat">
-            <text class="num">{{ stats.companies }}</text>
-            <text class="lab">附近门店</text>
-          </view>
-          <view class="bh-stat">
-            <text class="num">{{ stats.hiredToday }}</text>
-            <text class="lab">今日招到</text>
-          </view>
-          <view class="bh-stat">
-            <text class="num">{{ stats.trialsToday }}</text>
-            <text class="lab">今日试工</text>
-          </view>
+      <!-- 搜索条 -->
+      <view class="search" @click="goSearch">
+        <z-icon name="search" :size="17" color="#8a9492" />
+        <text>搜岗位、人才或餐厅</text>
+      </view>
+
+      <!-- 品牌 hero -->
+      <view class="hero-card">
+        <view class="eyebrow">TODAY'S HIRING NOTE</view>
+        <text class="hero-title">招对一个人，\n后厨就顺一整天。</text>
+        <view class="go" @click="goPostJob">
+          <text>发布招聘</text>
+          <z-icon name="arrow-right" :size="13" color="#ffd35c" />
         </view>
       </view>
 
-      <!-- 功能入口(不再二选一身份,四个动作随时用) -->
-      <view class="act-grid">
-        <view class="act primary" @click="goPostJob">
-          <text class="ai">📢</text>
-          <text class="at">发岗位</text>
-          <text class="as">老板</text>
+      <!-- 今日统计 -->
+      <view class="stats-row">
+        <view class="stat">
+          <text class="num">{{ stats.jobs }}</text>
+          <text class="lab">今日在招</text>
         </view>
-        <view class="act" @click="goPostResume">
-          <text class="ai">🙋</text>
-          <text class="at">发求职卡</text>
-          <text class="as">找活</text>
+        <view class="stat">
+          <text class="num">{{ stats.companies }}</text>
+          <text class="lab">附近门店</text>
         </view>
-        <view class="act" @click="goSearch">
-          <text class="ai">🔍</text>
-          <text class="at">找工作</text>
-          <text class="as">岗位</text>
+        <view class="stat">
+          <text class="num">{{ stats.hiredToday }}</text>
+          <text class="lab">今日招到</text>
         </view>
-        <view class="act" @click="goResumeList">
-          <text class="ai">🧑‍🍳</text>
-          <text class="at">找人才</text>
-          <text class="as">求职卡</text>
+        <view class="stat">
+          <text class="num">{{ stats.trialsToday }}</text>
+          <text class="lab">今日试工</text>
         </view>
       </view>
 
-      <search-bar placeholder="搜岗位、人才或餐厅" @click="goSearch" />
+      <!-- 功能入口 -->
+      <view class="section-title">
+        <text class="title">招聘管理</text>
+        <text class="sub">把招人这件事理清楚</text>
+      </view>
+      <view class="tool-grid">
+        <view class="tool" @click="goPostJob">
+          <view class="tool-icon t1"><z-icon name="briefcase" :size="24" color="#d94b23" /></view>
+          <text>发布岗位</text>
+        </view>
+        <view class="tool" @click="goPostResume">
+          <view class="tool-icon t2"><z-icon name="document-text" :size="24" color="#bf8714" /></view>
+          <text>发求职卡</text>
+        </view>
+        <view class="tool" @click="goSearch">
+          <view class="tool-icon t3"><z-icon name="search" :size="24" color="#268577" /></view>
+          <text>找工作</text>
+        </view>
+        <view class="tool" @click="goResumeList">
+          <view class="tool-icon t4"><z-icon name="user" :size="24" color="#506fb5" /></view>
+          <text>找人才</text>
+        </view>
+      </view>
 
       <!-- 在招岗位（我发布的岗位） -->
       <view class="section-title">
@@ -65,9 +77,9 @@
       </view>
 
       <view v-if="myJobs.length" class="job-list">
-        <view v-for="j in myJobs" :key="j.id" class="job-row card" @click="goJobDetail(j)">
+        <view v-for="j in myJobs" :key="j.id" class="job-row" @click="goJobDetail(j)">
           <view class="job-top">
-            <view class="logo" :style="{ background: j.logoColor || '#e65a37' }">
+            <view class="logo" :class="(j.logoColor || '#e65a37') === '#e65a37' ? 'red' : (j.logoColor || '') === '#329987' ? 'green' : ''" :style="j.logoColor && j.logoColor !== '#e65a37' && j.logoColor !== '#329987' ? { background: j.logoColor } : {}">
               <text>{{ j.logoText || (j.title || '岗')[0] }}</text>
             </view>
             <view class="info">
@@ -218,122 +230,129 @@ onShow(load)
 </script>
 
 <style lang="scss" scoped>
+/* ===== 厨神帮 · 招聘首页(视觉对齐 2026-08 原型 HTML) ===== */
 .page {
   min-height: 100vh;
-  background: $paper;
-  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+  background: #fffdf7;
+  color: #17292c;
 }
-
 .content {
-  padding: 0 32rpx;
+  padding: 0 0 24rpx;
 }
 
-.loc-chip {
-  font-size: 22rpx;
-  color: $muted;
-  background: #eef0e9;
-  border-radius: 999rpx;
-  padding: 8rpx 20rpx;
+/* 顶部圆形按钮 */
+.round-btn {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: $wash;
 }
 
-/* 品牌区 */
-.brand-hero {
+/* 搜索条 */
+.search {
+  margin: 20rpx 40rpx 0;
+  height: 84rpx;
+  border-radius: 28rpx;
+  background: $wash;
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  color: #8a9492;
+  font-size: 24rpx;
+  padding: 0 26rpx;
+  box-sizing: border-box;
+}
+
+/* hero 卡(深绿 + 黄圆 + 橙色装饰) */
+.hero-card {
   position: relative;
-  margin-top: 28rpx;
-  border-radius: 40rpx;
-  padding: 36rpx 34rpx 30rpx;
+  margin: 26rpx 40rpx 0;
+  min-height: 320rpx;
+  border-radius: 44rpx;
+  padding: 36rpx 36rpx 40rpx;
   overflow: hidden;
   color: #fffdf7;
-  background: linear-gradient(135deg, #e65a2a, #f0863f);
-
-  .bh-post {
-    position: absolute;
-    right: 28rpx;
-    top: 28rpx;
-    background: #fff;
-    color: $orange;
-    font-size: 22rpx;
-    font-weight: 800;
-    border-radius: 999rpx;
-    padding: 10rpx 24rpx;
-  }
-
-  .bh-slogan {
-    display: block;
-    font-size: 44rpx;
-    font-weight: 800;
-    line-height: 1.35;
-    letter-spacing: -2rpx;
-    white-space: pre-line;
-  }
-
-  .bh-stats {
-    display: flex;
-    gap: 0;
-    margin-top: 28rpx;
-
-    .bh-stat {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-
-      .num {
-        font-size: 36rpx;
-        font-weight: 800;
-      }
-
-      .lab {
-        font-size: 20rpx;
-        opacity: 0.85;
-        margin-top: 2rpx;
-      }
-    }
-  }
+  background: #263f42;
+  box-sizing: border-box;
+}
+.hero-card::before {
+  content: '';
+  position: absolute;
+  right: -60rpx;
+  bottom: -90rpx;
+  width: 330rpx;
+  height: 330rpx;
+  border: 34rpx solid #ffd35c;
+  border-radius: 50%;
+  opacity: 0.95;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  right: 66rpx;
+  top: 40rpx;
+  width: 130rpx;
+  height: 130rpx;
+  background: #ef5a2a;
+  border-radius: 48% 52% 48% 55%;
+  transform: rotate(25deg);
+  box-shadow: -36rpx 60rpx 0 -8rpx #41a899;
+}
+.eyebrow {
+  font-size: 20rpx;
+  color: #c8d4c7;
+  letter-spacing: 0.1em;
+  position: relative;
+  z-index: 1;
+}
+.hero-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 800;
+  letter-spacing: -0.08em;
+  line-height: 1.28;
+  margin: 18rpx 0 26rpx;
+  max-width: 420rpx;
+  position: relative;
+  z-index: 1;
+}
+.hero-card .go {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  color: #ffd35c;
+  font-size: 24rpx;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
 }
 
-/* 功能入口 */
-.act-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16rpx;
-  margin-top: 24rpx;
-
-  .act {
-    background: #fff;
-    border: 1rpx solid $line;
-    border-radius: 24rpx;
-    padding: 20rpx 0 16rpx;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .ai {
-      font-size: 36rpx;
-    }
-
-    .at {
-      font-size: 24rpx;
-      font-weight: 700;
-      color: $ink;
-      margin-top: 6rpx;
-    }
-
-    .as {
-      font-size: 18rpx;
-      color: $muted;
-      margin-top: 2rpx;
-    }
-
-    &.primary {
-      background: $orange;
-      border-color: $orange;
-
-      .at,
-      .as {
-        color: #fff;
-      }
-    }
-  }
+/* 今日统计条 */
+.stats-row {
+  margin: 24rpx 40rpx 0;
+  display: flex;
+  background: $wash;
+  border-radius: 26rpx;
+  padding: 22rpx 0;
+}
+.stats-row .stat {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.stats-row .num {
+  font-size: 34rpx;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: #17292c;
+}
+.stats-row .lab {
+  font-size: 20rpx;
+  color: #718083;
 }
 
 /* 区块标题 */
@@ -341,200 +360,179 @@ onShow(load)
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin: 36rpx 0 16rpx;
-
-  .title {
-    font-size: 32rpx;
-    font-weight: 800;
-  }
-
-  .more {
-    font-size: 22rpx;
-    color: $muted;
-  }
+  margin: 40rpx 40rpx 22rpx;
+}
+.section-title .title {
+  font-size: 30rpx;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #17292c;
+}
+.section-title .sub {
+  font-size: 22rpx;
+  color: #718083;
+}
+.section-title .more {
+  font-size: 22rpx;
+  color: #718083;
 }
 
-/* 在招岗位列表 */
+/* 功能入口 4 宫格 */
+.tool-grid {
+  padding: 0 40rpx;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+}
+.tool {
+  text-align: center;
+  color: #17292c;
+  font-size: 20rpx;
+  white-space: nowrap;
+}
+.tool .tool-icon {
+  margin: 0 auto 12rpx;
+  display: grid;
+  place-items: center;
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 36rpx;
+}
+.tool .t1 { background: $orange-wash; }
+.tool .t2 { background: $yellow-wash; }
+.tool .t3 { background: $jade-wash; }
+.tool .t4 { background: $blue-wash; }
+
+/* 在招岗位卡片 */
 .job-list {
+  margin: 0 40rpx;
+}
+.job-row {
+  background: #fff;
+  border: 1px solid #e7e5dc;
+  border-radius: 32rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+}
+.job-top {
+  display: flex;
+  gap: 20rpx;
+  align-items: flex-start;
+}
+.logo {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 22rpx;
+  display: grid;
+  place-items: center;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #fff;
+  flex: none;
+}
+.logo.red { background: #e65a37; }
+.logo.green { background: #329987; }
+.info { flex: 1; min-width: 0; }
+.info .title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.info .company {
+  display: block;
+  font-size: 20rpx;
+  color: #718083;
   margin-top: 8rpx;
 }
-
-.job-row {
-  margin-top: 20rpx;
-
-  .job-top {
-    display: flex;
-    align-items: center;
-    gap: 20rpx;
-
-    .logo {
-      width: 76rpx;
-      height: 76rpx;
-      border-radius: 22rpx;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40rpx;
-      font-weight: 700;
-      color: #fff;
-      flex: none;
-    }
-
-    .info {
-      flex: 1;
-      min-width: 0;
-
-      .title {
-        display: block;
-        font-size: 30rpx;
-        font-weight: 700;
-        line-height: 1.3;
-      }
-
-      .company {
-        display: block;
-        font-size: 22rpx;
-        color: $muted;
-        margin-top: 6rpx;
-      }
-
-      .tag-row {
-        display: flex;
-        gap: 8rpx;
-        margin-top: 8rpx;
-
-        .tag {
-          font-size: 18rpx;
-          font-weight: 600;
-          border-radius: 8rpx;
-          padding: 4rpx 12rpx;
-
-          &.blue {
-            background: #eaf2fb;
-            color: #2c6cb0;
-          }
-
-          &.lock {
-            background: #f3f0e8;
-            color: #7d776a;
-          }
-
-          &:not(.blue):not(.lock) {
-            background: #fff4ec;
-            color: #c0561e;
-          }
-        }
-      }
-    }
-
-    .salary {
-      font-size: 28rpx;
-      font-weight: 700;
-      color: $orange;
-      white-space: nowrap;
-    }
-  }
-
-  .job-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1rpx solid $line;
-    margin-top: 20rpx;
-    padding-top: 18rpx;
-
-    .time {
-      font-size: 22rpx;
-      color: $muted;
-    }
-
-    .status-chip {
-      font-size: 22rpx;
-      font-weight: 600;
-      padding: 8rpx 20rpx;
-      border-radius: 999rpx;
-
-      &.on {
-        color: #268577;
-        background: #dcefe9;
-      }
-
-      &.off {
-        color: #84908e;
-        background: #eff0ea;
-      }
-
-      &.hired {
-        color: #fff;
-        background: $orange;
-      }
-    }
-  }
+.tag-row {
+  display: flex;
+  gap: 10rpx;
+  margin-top: 14rpx;
+  flex-wrap: wrap;
 }
-
-.empty-wrap,
-.loading-wrap {
-  padding: 60rpx 0;
+.tag {
+  font-size: 18rpx;
+  background: $wash;
+  color: #6b7878;
+  padding: 6rpx 12rpx;
+  border-radius: 10rpx;
 }
-
-.loading-text {
-  display: block;
-  text-align: center;
-  color: $muted;
-  font-size: 24rpx;
+.tag.blue { color: #3d62b0; }
+.tag.lock { color: #a05e2c; }
+.salary {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #ef5a2a;
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
 }
+.job-foot {
+  border-top: 1px solid #e7e5dc;
+  margin-top: 18rpx;
+  padding-top: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #718083;
+  font-size: 20rpx;
+}
+.status-chip {
+  font-size: 20rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  background: $wash;
+  color: #6b7878;
+}
+.status-chip.on { background: $jade-wash; color: #268577; }
+.status-chip.hired { background: $orange-wash; color: #d94b23; }
+.status-chip.off { background: $wash; color: #9aa3a1; }
 
-/* 动态列表 */
+/* 招聘动态 */
 .mini-list {
-  border-top: 1rpx solid $line;
+  margin: 0 40rpx;
+  border-top: 1px solid #e7e5dc;
 }
-
 .mini-row {
   display: flex;
   align-items: center;
-  gap: 20rpx;
+  gap: 22rpx;
   padding: 24rpx 0;
-  border-bottom: 1rpx solid $line;
+  border-bottom: 1px solid #e7e5dc;
 }
-
 .mini-date {
-  width: 74rpx;
-  height: 74rpx;
   border-radius: 18rpx;
+  min-width: 74rpx;
+  height: 74rpx;
   background: #f5dcd1;
-  color: $orange-dark;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24rpx;
-  font-weight: 600;
+  color: #ce421d;
+  display: grid;
+  place-items: center;
+  font-size: 22rpx;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  line-height: 1.15;
+  padding: 6rpx 0;
+  box-sizing: border-box;
   flex: none;
-
-  &.hot {
-    background: $orange;
-    color: #fff;
-  }
+}
+.mini-date.hot { background: #263f42; color: #ffd35c; }
+.mini-info { flex: 1; min-width: 0; }
+.mini-title {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+.mini-desc {
+  display: block;
+  font-size: 20rpx;
+  color: #718083;
+  margin-top: 4rpx;
 }
 
-.mini-info {
-  flex: 1;
-  min-width: 0;
-
-  .mini-title {
-    display: block;
-    font-size: 26rpx;
-    font-weight: 600;
-  }
-
-  .mini-desc {
-    display: block;
-    font-size: 22rpx;
-    color: $muted;
-    margin-top: 4rpx;
-  }
-}
-
-.bottom-space {
-  height: 40rpx;
-}
+.empty-wrap { padding: 40rpx 0; }
+.loading-wrap { padding: 40rpx 0; text-align: center; }
+.loading-text { font-size: 22rpx; color: #8a9492; }
+.bottom-space { height: 30rpx; }
 </style>

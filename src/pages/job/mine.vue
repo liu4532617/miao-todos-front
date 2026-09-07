@@ -169,7 +169,7 @@ onShow(load)
       font-size: 22rpx;
 
       &.on {
-        background: #dceee7;
+        background: $jade-wash;
         color: #268577;
       }
 

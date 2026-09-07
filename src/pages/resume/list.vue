@@ -109,7 +109,7 @@ onLoad(load)
   .chip {
     padding: 12rpx 28rpx;
     border-radius: 999rpx;
-    background: #eff0ea;
+    background: $wash;
     color: #5c6c6e;
     font-size: 24rpx;
 
@@ -162,12 +162,12 @@ onLoad(load)
           border-radius: 999rpx;
 
           &.new {
-            background: #ffe4d7;
+            background: $orange-wash;
             color: #d94b23;
           }
 
           &.interview {
-            background: #dcefe9;
+            background: $jade-wash;
             color: #268577;
           }
         }

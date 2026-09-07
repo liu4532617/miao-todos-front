@@ -101,7 +101,7 @@ defineEmits(['click', 'action'])
 
   .tag {
     font-size: 20rpx;
-    background: #f2f2ec;
+    background: $wash;
     color: #6b7878;
     padding: 8rpx 12rpx;
     border-radius: 10rpx;

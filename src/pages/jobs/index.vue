@@ -11,8 +11,8 @@
     <view class="content">
       <!-- 品牌区 -->
       <view class="hero-card">
-        <view class="bh-post" @click="goPostResume">🙋 发求职卡</view>
         <text class="hero-title">把求职卡发出去，\n让老板直接找你。</text>
+        <view class="bh-post" @click="goPostResume">🙋 发求职卡</view>
         <view class="bh-stats">
           <view class="bh-stat">
             <text class="num">{{ stats.resumes }}</text>
@@ -208,32 +208,45 @@ onShow(load)
   width: 70rpx;
   height: 70rpx;
   border-radius: 50%;
-  background: #eef0e9;
+  background: $wash;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 品牌区 */
+/* 品牌区(深绿 hero,对齐招聘首页/2026-08 原型) */
 .hero-card {
   position: relative;
   margin-top: 28rpx;
-  border-radius: 40rpx;
-  padding: 36rpx 34rpx 28rpx;
+  border-radius: 44rpx;
+  padding: 40rpx 36rpx 32rpx;
   overflow: hidden;
   color: #fffdf7;
-  background: linear-gradient(135deg, #2e6fb7, #5a9ce8);
+  background: #263f42;
 
-  .bh-post {
+  &::before {
+    content: '';
     position: absolute;
-    right: 28rpx;
-    top: 28rpx;
-    background: #fff;
-    color: #2e6fb7;
-    font-size: 22rpx;
-    font-weight: 800;
-    border-radius: 999rpx;
-    padding: 10rpx 24rpx;
+    right: -60rpx;
+    bottom: -90rpx;
+    width: 330rpx;
+    height: 330rpx;
+    border: 34rpx solid #ffd35c;
+    border-radius: 50%;
+    opacity: 0.95;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 66rpx;
+    top: 40rpx;
+    width: 130rpx;
+    height: 130rpx;
+    background: #ef5a2a;
+    border-radius: 48% 52% 48% 55%;
+    transform: rotate(25deg);
+    box-shadow: -36rpx 60rpx 0 -8rpx #41a899;
   }
 
   .hero-title {
@@ -243,13 +256,31 @@ onShow(load)
     line-height: 1.35;
     letter-spacing: -2rpx;
     white-space: pre-line;
-    max-width: 480rpx;
+    max-width: 440rpx;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bh-post {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 26rpx;
+    background: #fff;
+    color: #ef5a2a;
+    font-size: 22rpx;
+    font-weight: 800;
+    border-radius: 999rpx;
+    padding: 12rpx 26rpx;
   }
 
   .bh-stats {
     display: flex;
     gap: 48rpx;
     margin-top: 26rpx;
+    position: relative;
+    z-index: 1;
 
     .bh-stat {
       display: flex;
@@ -303,8 +334,8 @@ onShow(load)
     }
 
     &.primary {
-      background: #2e6fb7;
-      border-color: #2e6fb7;
+      background: #ef5a2a;
+      border-color: #ef5a2a;
 
       .at,
       .as {
@@ -410,12 +441,12 @@ onShow(load)
         font-weight: 600;
         border-radius: 8rpx;
         padding: 4rpx 12rpx;
-        background: #fff4ec;
+        background: $orange-wash;
         color: #c0561e;
 
         &.blue {
-          background: #eaf2fb;
-          color: #2c6cb0;
+          background: $wash;
+          color: #3d62b0;
         }
 
         &.lock {
@@ -430,7 +461,7 @@ onShow(load)
 .status-chip {
   font-size: 20rpx;
   color: #268577;
-  background: #dcefe9;
+  background: $jade-wash;
   padding: 4rpx 14rpx;
   border-radius: 999rpx;
   flex: none;
