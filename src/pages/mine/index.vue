@@ -151,10 +151,6 @@ function goMyProducts() {
   uni.navigateTo({ url: '/pages/market/post' })
 }
 
-function onSwitchRole() {
-  uni.navigateTo({ url: '/pages/company/auth' })
-}
-
 function authText(auth) {
   if (auth === 1) return '公司已认证'
   if (companyPending.value) return '公司认证审核中'
@@ -186,32 +182,47 @@ onShow(onShowHandler)
   padding: 0 32rpx;
 }
 
+/* 个人信息卡 — 与招聘/求职广场 hero 同语言 */
 .profile-head {
   position: relative;
-  margin-top: 24rpx;
-  background: #294649;
-  border-radius: 36rpx;
-  color: #fff;
-  padding: 36rpx;
+  margin-top: 28rpx;
+  border-radius: $radius-xl;
+  padding: 40rpx 36rpx 36rpx;
   overflow: hidden;
+  color: $paper;
+  background: #263f42;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: -60rpx;
+    bottom: -90rpx;
+    width: 330rpx;
+    height: 330rpx;
+    border: 34rpx solid $yellow;
+    border-radius: 50%;
+    opacity: 0.95;
+  }
 
   &::after {
-    content: '灶';
+    content: '';
     position: absolute;
-    right: 20rpx;
-    bottom: -42rpx;
-    color: #386064;
-    font-size: 210rpx;
-    font-weight: 800;
-    line-height: 1;
+    right: 66rpx;
+    top: 40rpx;
+    width: 130rpx;
+    height: 130rpx;
+    background: $orange;
+    border-radius: 48% 52% 48% 55%;
+    transform: rotate(25deg);
+    box-shadow: -36rpx 60rpx 0 -8rpx $jade;
   }
 
   .avatar-wrap {
+    position: relative;
+    z-index: 1;
     width: 112rpx;
     height: 112rpx;
     border-radius: 50%;
-    position: relative;
-    z-index: 1;
     overflow: visible;
   }
 
@@ -219,8 +230,8 @@ onShow(onShowHandler)
     width: 112rpx;
     height: 112rpx;
     border-radius: 50%;
-    border: 4rpx solid rgba(255, 255, 255, 0.9);
-    background: #ffd45d;
+    border: 4rpx solid rgba(255, 253, 247, 0.9);
+    background: $yellow;
     display: block;
   }
 
@@ -231,37 +242,40 @@ onShow(onShowHandler)
     width: 40rpx;
     height: 40rpx;
     border-radius: 50%;
-    background: rgba(23, 41, 44, 0.75);
+    background: rgba($ink, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3rpx solid rgba(255, 255, 255, 0.9);
+    border: 3rpx solid rgba(255, 253, 247, 0.9);
   }
 
   .name {
+    position: relative;
+    z-index: 1;
     display: block;
     margin-top: 18rpx;
     font-size: 34rpx;
     font-weight: 700;
-    position: relative;
-    z-index: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .sub {
+    position: relative;
+    z-index: 1;
     display: block;
     margin-top: 4rpx;
     font-size: 20rpx;
-    color: #c4d5d0;
-    position: relative;
-    z-index: 1;
+    color: #c8d4c7;
   }
 
   .profile-stats {
+    position: relative;
+    z-index: 1;
     display: flex;
     gap: 52rpx;
     margin-top: 32rpx;
-    position: relative;
-    z-index: 1;
 
     .stat {
       .num {
@@ -274,21 +288,36 @@ onShow(onShowHandler)
       .label {
         display: block;
         font-size: 20rpx;
-        color: #c4d5d0;
+        color: #c8d4c7;
       }
     }
   }
 }
 
+/* 区块小标题(与广场页分组标题一致) */
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 40rpx 0 18rpx;
+
+  .title {
+    font-size: 26rpx;
+    font-weight: 700;
+    color: $muted;
+    letter-spacing: 1rpx;
+  }
+}
+
 .my-menu {
   border: 1rpx solid $line;
-  border-radius: 28rpx;
+  border-radius: $radius-card;
   background: #fff;
   overflow: hidden;
 }
 
 .my-row {
-  height: 100rpx;
+  height: 104rpx;
   padding: 0 28rpx;
   display: flex;
   align-items: center;
@@ -301,16 +330,33 @@ onShow(onShowHandler)
 
   .row-name {
     flex: 1;
-    font-size: 26rpx;
+    font-size: 28rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .row-tag {
+    flex: none;
+    font-size: 20rpx;
+    padding: 4rpx 16rpx;
+    border-radius: 999rpx;
+    background: $jade-wash;
+    color: #268577;
+
+    &.pending {
+      background: $yellow-wash;
+      color: #b7791f;
+    }
   }
 }
 
 .tip-box {
-  margin-top: 32rpx;
+  margin-top: 40rpx;
   background: $jade-wash;
-  border-radius: 28rpx;
+  border-radius: $radius-card;
   padding: 26rpx 28rpx;
-  color: #37726b;
+  color: #268577;
 
   .tip-title {
     display: block;

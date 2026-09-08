@@ -1,6 +1,6 @@
 <template>
   <view class="product" hover-class="product-hover" @click="$emit('click', product)">
-    <view class="product-art" :class="product.art" :style="{ background: product.bg || '#d7ebe4' }">
+    <view class="product-art" :class="product.art" :style="product.bg ? { background: product.bg } : null">
       <!-- 简易装饰图形，模拟商品图 -->
     </view>
     <view class="product-info">
@@ -38,6 +38,7 @@ defineEmits(['click'])
   height: 210rpx;
   position: relative;
   overflow: hidden;
+  background: $jade-wash;
 
   &.pot::before,
   &.pot::after {

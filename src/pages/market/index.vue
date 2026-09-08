@@ -1,21 +1,16 @@
 <template>
   <view class="page">
-    <nav-bar title="餐饮跳蚤">
-      <template #right>
-        <view class="round-btn" @click="onFilter">
-          <z-icon name="settings" :size="18" color="#17292c" />
-        </view>
-      </template>
-    </nav-bar>
+    <nav-bar title="餐饮跳蚤" />
 
     <view class="content">
-      <!-- 市场横幅 -->
-      <view class="market-hero">
-        <view class="hero-text">
-          <text class="p">给好设备，再找一个灶台</text>
-          <text class="strong">餐饮好物 · 轻松流转</text>
+      <!-- 品牌 hero -->
+      <view class="hero-card">
+        <text class="eyebrow">餐饮好物 · 轻松流转</text>
+        <text class="hero-title">给好设备，\n再找一个灶台。</text>
+        <view class="go" @click="goPost">
+          <text>发布闲置</text>
+          <z-icon name="arrow-right" :size="13" color="#ffd35c" />
         </view>
-        <text class="deco">二手 重启</text>
       </view>
 
       <!-- 分类 tabs -->
@@ -42,9 +37,18 @@
       </view>
 
       <view v-if="!loading && !products.length" class="empty-wrap">
-        <empty icon="bag" text="这个分类暂时还没有宝贝" />
+        <empty
+          icon="bag"
+          text="这个分类暂时还没有宝贝"
+          subText="发布第一件闲置，让好设备继续发光"
+          action-text="去发布"
+          @action="goPost"
+        />
       </view>
 
+      <view v-if="loading" class="loading-wrap">
+        <text class="loading-text">加载中...</text>
+      </view>
       <view class="bottom-space" />
     </view>
 
@@ -61,17 +65,12 @@
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { getProducts } from '@/api/market'
-import { toast } from '@/utils/feedback'
 
 const tabs = ['精选', '厨房设备', '桌椅餐具', '急转']
 const currentTab = ref('精选')
 
 const products = ref([])
 const loading = ref(false)
-
-function onFilter() {
-  toast('筛选器已打开')
-}
 
 function onTab(t) {
   currentTab.value = t
@@ -115,65 +114,80 @@ onLoad(load)
   padding: 0 32rpx;
 }
 
-.round-btn {
-  width: 70rpx;
-  height: 70rpx;
-  border-radius: 50%;
-  background: $wash;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 横幅 */
-.market-hero {
+/* 品牌 hero(深绿 + 黄圆 + 橙装饰,与招聘/求职广场同语言) */
+.hero-card {
   position: relative;
   margin-top: 28rpx;
-  background: #feeccf;
-  height: 208rpx;
-  border-radius: 36rpx;
-  padding: 30rpx 32rpx;
+  border-radius: $radius-xl;
+  padding: 40rpx 36rpx 36rpx;
   overflow: hidden;
+  color: $paper;
+  background: #263f42;
 
-  .hero-text {
-    position: relative;
-    z-index: 1;
-
-    .p {
-      display: block;
-      font-size: 22rpx;
-      color: #895b2c;
-    }
-
-    .strong {
-      display: block;
-      font-size: 36rpx;
-      font-weight: 800;
-      letter-spacing: -1rpx;
-      margin-top: 10rpx;
-    }
+  &::before {
+    content: '';
+    position: absolute;
+    right: -60rpx;
+    bottom: -90rpx;
+    width: 330rpx;
+    height: 330rpx;
+    border: 34rpx solid $yellow;
+    border-radius: 50%;
+    opacity: 0.95;
   }
 
-  .deco {
+  &::after {
+    content: '';
     position: absolute;
-    right: 16rpx;
-    bottom: -6rpx;
-    font-size: 86rpx;
+    right: 66rpx;
+    top: 40rpx;
+    width: 130rpx;
+    height: 130rpx;
+    background: $orange;
+    border-radius: 48% 52% 48% 55%;
+    transform: rotate(25deg);
+    box-shadow: -36rpx 60rpx 0 -8rpx $jade;
+  }
+
+  .eyebrow {
+    position: relative;
+    z-index: 1;
+    display: block;
+    font-size: 20rpx;
+    color: #c8d4c7;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-title {
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin: 16rpx 0 28rpx;
+    font-size: 44rpx;
     font-weight: 800;
-    color: #e95b32;
-    opacity: 0.9;
-    transform: rotate(-7deg);
+    line-height: 1.35;
+    letter-spacing: -2rpx;
     white-space: pre-line;
-    line-height: 0.82;
-    letter-spacing: -4rpx;
+    max-width: 440rpx;
+  }
+
+  .go {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8rpx;
+    color: $yellow;
+    font-size: 24rpx;
+    font-weight: 700;
   }
 }
 
-/* tabs */
+/* 分类 tabs */
 .market-tabs {
   display: flex;
   gap: 34rpx;
-  margin: 34rpx 4rpx 8rpx;
+  margin: 32rpx 4rpx 8rpx;
   border-bottom: 1rpx solid $line;
 
   .tab {
@@ -197,8 +211,16 @@ onLoad(load)
   margin-top: 22rpx;
 }
 
-.empty-wrap {
+.empty-wrap,
+.loading-wrap {
   padding: 60rpx 0;
+}
+
+.loading-text {
+  display: block;
+  text-align: center;
+  color: $muted;
+  font-size: 24rpx;
 }
 
 .float-add {
